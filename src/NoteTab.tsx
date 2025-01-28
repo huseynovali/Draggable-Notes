@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function NoteTab() {
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
-
+  const [value, setValue] = useState("");
   const dragStartContainer = (e) => {
     setIsDragging(true);
     setOffset({
@@ -51,7 +52,14 @@ function NoteTab() {
         </svg>
       </div>
       <div className="note_body " draggable="false">
-        <textarea name="" id="" className="note_textarea"></textarea>
+        <ReactQuill
+          theme="snow"
+          className="note_textarea"
+          value={value}
+          onChange={setValue}
+          
+        />
+        ;
       </div>
     </div>
   );
