@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.section-1 {
+  background-color: #f1f1f1;
+}
+
+.section-2 {
+  background-color: #a1a1a1;
+}
+
+.section-3 {
+  background-color: #b1b1b1;
+}
+
+
+.note-tab{
+  width: 200px;
+  height: 200px;
+  background-color: rgb(129, 122, 129);
+  border-radius: 10px;
+  position: absolute;
+
+
+}
