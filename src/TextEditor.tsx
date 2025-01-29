@@ -29,6 +29,7 @@ function TextEditor() {
   }, []);
 
   return (
+   
     <div className="note_body" draggable="false">
       <div className="toolbar">
         {formats.map((format) => (
