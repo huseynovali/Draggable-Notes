@@ -27,8 +27,8 @@ section {
 }
 
 .note-tab {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background-color: rgb(129, 122, 129);
   border-radius: 10px;
   position: absolute;
@@ -48,16 +48,17 @@ section {
   height: 100%;
   background-color: rgb(12, 122, 129);
   position: relative;
-  z-index: 1;  
+  z-index: 1;
   overflow-y: auto;
-  padding-top: 10px;
+
+  border-end-start-radius: 10px;
+  border-end-end-radius: 10px;
 }
 .note_textarea {
-  width: calc(100% - 30px);
+  width: 100%;
   height: 100%;
   background-color: rgb(12, 122, 129);
   position: relative;
-  left: 20px;
   z-index: 1;
   border: none;
   outline: none;
@@ -65,5 +66,6 @@ section {
   font-size: 16px;
   color: white;
   cursor: text;
-
+  border-end-start-radius: 10px;
+  border-end-end-radius: 10px;
 }

@@ -1,44 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import ReactQuill from "react-quill";
 
+import "react-quill/dist/quill.snow.css";
 function NoteTab() {
   const editorRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [value, setValue] = useState("");
-
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.innerHTML = "<ul><li></li></ul>";
-      placeCursorInside(editorRef.current);
-    }
-
-    const handleInput = () => {
-      const editor = editorRef.current;
-      if (editor) {
-        const ulElement = editor.querySelector("ul");
-        if (!ulElement || ulElement.children.length === 0) {
-          editor.innerHTML = "<ul><li></li></ul>";
-          placeCursorInside(editor);
-        }
-      }
-    };
-
-    editorRef.current.addEventListener("input", handleInput);
-    return () => editorRef.current?.removeEventListener("input", handleInput);
-  }, []);
-
-  const placeCursorInside = (element) => {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    const liElement = element.querySelector("li");
-    if (liElement) {
-      range.setStart(liElement, 0);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  };
 
   const dragStartContainer = (e) => {
     setIsDragging(true);
@@ -103,11 +72,19 @@ function NoteTab() {
         </svg>
       </div>
       <div className="note_body" draggable="false">
-        <div
-          ref={editorRef}
-          contentEditable={true}
+        <ReactQuill
+          theme="snow"
           className="note_textarea"
-        ></div>
+          modules={{
+            toolbar: [
+              ["bold", "italic", "underline"],
+              [{ list: "ordered" }, { list: "bullet" }],
+            ],
+          }}
+          value={value}
+          onChange={setValue}
+          placeholder="Write something..."
+        />
       </div>
     </div>
   );
