@@ -39,10 +39,15 @@ section {
   -o-border-radius: 10px;
 }
 .note_tab_header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 10px 0;
+}
+.note_header_drag_icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+
 }
 .note_body {
   width: 100%;
@@ -67,13 +72,12 @@ ul {
   border-top: 1px solid #ccc;
   padding: 8px 5px;
   cursor: auto;
-  
 }
 
 button {
   border: none;
   background-color: transparent;
-  margin-right: 5px;
+  margin: 0 8px;
   cursor: pointer;
   font-size: 16px;
   border-radius: 4px;
@@ -87,4 +91,5 @@ button {
   outline: none;
   height: 100%;
   cursor: text;
+  overflow-y: auto;
 }

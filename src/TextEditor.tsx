@@ -4,7 +4,11 @@ import "./App.css";
 function TextEditor() {
   const editorRef = useRef(null);
   const [activeFormats, setActiveFormats] = useState([]);
-
+  const formats = [
+    { cmd: "bold", label: "Bold", style: "bold" },
+    { cmd: "italic", label: "Italic", style: "italic" },
+    { cmd: "insertUnorderedList", label: "List" },
+  ];
   const handleFormat = (command) => {
     document.execCommand(command, false, null);
     editorRef.current.focus();
@@ -27,39 +31,23 @@ function TextEditor() {
   return (
     <div className="note_body" draggable="false">
       <div className="toolbar">
-        <button
-          onClick={() => handleFormat("bold")}
-          style={{
-            color: activeFormats.includes("bold") ? "#3f6efb" : "black",
-          }}
-        >
-          <b>B</b>
-        </button>
-        <button
-          onClick={() => handleFormat("italic")}
-          style={{
-            color: activeFormats.includes("italic") ? "#3f6efb" : "black",
-          }}
-        >
-          <i>Italic</i>
-        </button>
-        <button
-          onClick={() => handleFormat("insertUnorderedList")}
-          style={{
-            color: activeFormats.includes("insertUnorderedList")
-              ? "#3f6efb"
-              : "black",
-          }}
-        >
-          List
-        </button>
+        {formats.map((format) => (
+          <button
+            key={format.cmd}
+            onClick={() => handleFormat(format.cmd)}
+            style={{
+              color: activeFormats.includes(format.cmd) ? "#3f6efb" : "black",
+            }}
+          >
+            {format.label}
+          </button>
+        ))}
       </div>
       <div
         ref={editorRef}
         contentEditable="true"
         className="editor"
         spellCheck="false"
- 
       />
     </div>
   );
