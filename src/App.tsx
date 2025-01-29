@@ -2,6 +2,7 @@ import "./App.css";
 import NoteTab from "./NoteTab";
 
 function App() {
+  
   return (
     <div className="main-container">
       <NoteTab />
