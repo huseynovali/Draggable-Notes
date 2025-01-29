@@ -1,12 +1,44 @@
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { useEffect, useRef, useState } from "react";
 
 function NoteTab() {
+  const editorRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = "<ul><li></li></ul>";
+      placeCursorInside(editorRef.current);
+    }
+
+    const handleInput = () => {
+      const editor = editorRef.current;
+      if (editor) {
+        const ulElement = editor.querySelector("ul");
+        if (!ulElement || ulElement.children.length === 0) {
+          editor.innerHTML = "<ul><li></li></ul>";
+          placeCursorInside(editor);
+        }
+      }
+    };
+
+    editorRef.current.addEventListener("input", handleInput);
+    return () => editorRef.current?.removeEventListener("input", handleInput);
+  }, []);
+
+  const placeCursorInside = (element) => {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    const liElement = element.querySelector("li");
+    if (liElement) {
+      range.setStart(liElement, 0);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  };
 
   const dragStartContainer = (e) => {
     setIsDragging(true);
@@ -23,12 +55,8 @@ function NoteTab() {
     if (isDragging) {
       const maxX = window.innerWidth - 250;
       const maxY = document.documentElement.scrollHeight - 200;
-
       const newX = Math.min(Math.max(0, e.clientX - offset.x), maxX);
-      const newY = Math.min(
-        Math.max(0, e.clientY - offset.y + window.scrollY),
-        maxY
-      );
+      const newY = Math.min(Math.max(0, e.clientY - offset.y), maxY);
 
       setPosition({ x: newX, y: newY });
     }
@@ -75,14 +103,11 @@ function NoteTab() {
         </svg>
       </div>
       <div className="note_body" draggable="false">
-        <ReactQuill
-          theme="snow"
+        <div
+          ref={editorRef}
+          contentEditable={true}
           className="note_textarea"
-          value={value}
-          onChange={setValue}
-          modules={{ toolbar: false }}
-          formats={["list"]}
-        />
+        ></div>
       </div>
     </div>
   );
