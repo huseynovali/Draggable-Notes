@@ -5,7 +5,6 @@ function NoteTab() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
 
-
   const dragStartContainer = (e) => {
     setIsDragging(true);
     setOffset({
