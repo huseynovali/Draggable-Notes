@@ -4,11 +4,13 @@ import "./App.css";
 function TextEditor() {
   const editorRef = useRef(null);
   const [activeFormats, setActiveFormats] = useState([]);
+
   const formats = [
-    { cmd: "bold", label: "Bold", style: "bold" },
-    { cmd: "italic", label: "Italic", style: "italic" },
+    { cmd: "bold", label: "Bold" },
+    { cmd: "italic", label: "Italic" },
     { cmd: "insertUnorderedList", label: "List" },
   ];
+
   const handleFormat = (command) => {
     document.execCommand(command, false, null);
     editorRef.current.focus();
@@ -16,20 +18,28 @@ function TextEditor() {
   };
 
   const updateActiveFormats = () => {
-    const formats = ["bold", "italic", "insertUnorderedList"].filter((cmd) =>
+    const active = ["bold", "italic", "insertUnorderedList"].filter((cmd) =>
       document.queryCommandState(cmd)
     );
-    setActiveFormats(formats);
+    setActiveFormats(active);
+  };
+
+  const saveContent = () => {
+    localStorage.setItem("editorContent", editorRef.current.innerHTML);
   };
 
   useEffect(() => {
+    const savedContent = localStorage.getItem("editorContent");
+    if (savedContent) {
+      editorRef.current.innerHTML = savedContent;
+    }
+
     document.addEventListener("selectionchange", updateActiveFormats);
     return () =>
       document.removeEventListener("selectionchange", updateActiveFormats);
   }, []);
 
   return (
-   
     <div className="note_body" draggable="false">
       <div className="toolbar">
         {formats.map((format) => (
@@ -44,11 +54,13 @@ function TextEditor() {
           </button>
         ))}
       </div>
+
       <div
         ref={editorRef}
         contentEditable="true"
         className="editor"
         spellCheck="false"
+        onInput={saveContent}
       />
     </div>
   );

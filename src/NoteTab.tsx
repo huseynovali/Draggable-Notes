@@ -1,19 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import ReactQuill from "react-quill";
-
-import "react-quill/dist/quill.snow.css";
+import { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
 function NoteTab() {
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [value, setValue] = useState("");
+
 
   const dragStartContainer = (e) => {
     setIsDragging(true);
     setOffset({
       x:
-        e.clientX - position.x > window.innerWidth - 450
+        e.clientX - position.x > window.innerWidth - 400
           ? window.innerWidth - 350
           : e.clientX - position.x,
       y: e.clientY - position.y,
@@ -22,7 +19,7 @@ function NoteTab() {
 
   const dragContainer = (e) => {
     if (isDragging) {
-      const maxX = window.innerWidth - 400;
+      const maxX = window.innerWidth - 350;
       const maxY = document.documentElement.scrollHeight - 200;
       const newX = Math.min(Math.max(0, e.clientX - offset.x), maxX);
       const newY = Math.min(Math.max(0, e.clientY - offset.y), maxY);
